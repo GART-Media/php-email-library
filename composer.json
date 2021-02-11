@@ -1,0 +1,17 @@
+{
+    "name": "georg/php-email-library",
+    "description": "PHP email/form handling for GARTMedia",
+    "type": "library",
+    "require": {
+        "phpmailer/phpmailer": "^6.2"
+    },
+    "require-dev": {
+        "phpmailer/phpmailer": "^6.2"
+    },
+    "authors": [
+        {
+            "name": "Dennis Eisenfeld",
+            "email": "dennis.eisenfeld@yahoo.de"
+        }
+    ]
+}
