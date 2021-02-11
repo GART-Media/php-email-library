@@ -13,5 +13,10 @@
             "name": "Dennis Eisenfeld",
             "email": "dennis.eisenfeld@yahoo.de"
         }
-    ]
+    ],
+    "autoload": {
+        "classmap": [
+            "src/modules/*"
+        ]
+    }
 }
