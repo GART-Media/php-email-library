@@ -1,5 +1,5 @@
 {
-    "name": "georg/php-email-library",
+    "name": "gartmedia/php-email-library",
     "description": "PHP email/form handling for GARTMedia",
     "type": "library",
     "require": {
