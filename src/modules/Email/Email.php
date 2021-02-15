@@ -48,6 +48,10 @@ class Email
                 case "html":
                     $this->phpmailer->isHTML($value);
                     break;
+
+                case "charset":
+                    $this->phpmailer->CharSet = $value;
+                    break;
             }
         }
     }
@@ -78,6 +82,10 @@ class Email
             $this->setBody($data["body"]);
         } else {
             throw new MissingMailBodyException("No body data was supplied to class constructor!\nMissing key: 'body'");
+        }
+
+        if (isset($data["files"])) {
+            $this->setAttachments($data["files"]);
         }
     }
 
@@ -117,6 +125,13 @@ class Email
             } else {
                 $this->phpmailer->Subject = $value;
             }
+        }
+    }
+
+    private function setAttachments($attachments)
+    {
+        foreach ($attachments as $file) {
+            $this->phpmailer->addAttachment($file["tmp_name"], $file["name"]);
         }
     }
 
