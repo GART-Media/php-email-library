@@ -23,8 +23,8 @@ class Email
 
         $this->setEmailProperties($data);
 
-        if ($options) {
-            $this->options = $options;
+        if (isset($options)) {
+            $this->setOptions($options);
         }
     }
 
