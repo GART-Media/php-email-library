@@ -66,11 +66,11 @@ class Email
             throw new MissingMailFromException("No sender data was supplied to class constructor!\nMissing key: 'from'");
         }
 
-        if ($data["cc"]) {
+        if (isset($data["cc"])) {
             $this->setCC($data["cc"]);
         }
 
-        if ($data["bcc"]) {
+        if (isset($data["bcc"])) {
             $this->setBCC($data["bcc"]);
         }
 
@@ -111,11 +111,11 @@ class Email
 
     private function setBody($body)
     {
-        foreach ($body["body"] as $key => $value) {
+        foreach ($body as $key => $value) {
             if ($key !== "subject") {
-                $this->phpmailer->body .= $value . "<br>";
+                $this->phpmailer->Body .= $value . "<br>";
             } else {
-                $this->phpmailer->subject = $value;
+                $this->phpmailer->Subject = $value;
             }
         }
     }
@@ -125,9 +125,13 @@ class Email
         if ($settings["isSmtp"]) {
             $this->phpmailer->isSMTP();
             $this->phpmailer->Host = $settings["settings"]["host"];
-            $this->phpmailer->SMTPAuth = $settings["settings"]["auth"];
-            $this->phpmailer->Username = $settings["settings"]["username"];
-            $this->phpmailer->Password = $settings["settings"]["password"];
+
+            if ($settings["settings"]["auth"]) {
+                $this->phpmailer->SMTPAuth = $settings["settings"]["auth"];
+                $this->phpmailer->Username = $settings["settings"]["username"];
+                $this->phpmailer->Password = $settings["settings"]["password"];
+            }
+
             $this->phpmailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $this->phpmailer->Port = $settings["settings"]["port"];
         } else {
