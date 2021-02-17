@@ -4,14 +4,17 @@ namespace Email;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Auth\Recaptcha;
 use Exception\MissingDataException;
 use Exception\MissingMailBodyException;
 use Exception\MissingMailFromException;
 use Exception\MissingMailToException;
+use Exception\AuthError;
 
 class Email
 {
     private $phpmailer;
+    private $auth;
 
     public function __construct(array $data, array $options = null)
     {
@@ -30,6 +33,10 @@ class Email
 
     public function send()
     {
+        if (isset($this->auth) && !$this->auth) {
+            throw new AuthError("Authentifizierung fehlgeschlagen.");
+        }
+
         try {
             $this->phpmailer->send();
         } catch (Exception $e) {
@@ -51,6 +58,10 @@ class Email
 
                 case "charset":
                     $this->phpmailer->CharSet = $value;
+                    break;
+
+                case "recaptcha":
+                    $this->auth = Recaptcha::verify($value["response"], $value["secret"]);
                     break;
             }
         }
