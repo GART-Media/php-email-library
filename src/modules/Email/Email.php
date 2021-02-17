@@ -49,7 +49,7 @@ class Email
         foreach ($options as $option => $value) {
             switch ($option) {
                 case "smtp":
-                    $this->setSMTPSettings($value["settings"]);
+                    $this->setSMTPSettings($value);
                     break;
 
                 case "html":
@@ -148,7 +148,7 @@ class Email
 
     private function setSMTPSettings($settings)
     {
-        if ($settings["isSmtp"]) {
+        if (isset($settings["settings"])) {
             $this->phpmailer->isSMTP();
             $this->phpmailer->Host = $settings["settings"]["host"];
 
