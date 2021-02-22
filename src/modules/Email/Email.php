@@ -103,8 +103,8 @@ class Email
     private function setSender($from)
     {
         $this->phpmailer->setFrom(
-            $from["address"],
-            $from["name"]
+            filter_var(trim($from["address"]), FILTER_SANITIZE_EMAIL),
+            filter_var(trim($from["name"]), FILTER_SANITIZE_STRING)
         );
     }
 
@@ -112,20 +112,20 @@ class Email
     {
         foreach ($to as $recipient) {
             $this->phpmailer->addAddress(
-                $recipient["address"],
-                $recipient["name"]
+                filter_var(trim($recipient["address"]), FILTER_SANITIZE_EMAIL),
+                filter_var(trim($recipient["name"]), FILTER_SANITIZE_STRING)
             );
         }
     }
 
     private function setCC($cc)
     {
-        $this->phpmailer->addCC($cc);
+        $this->phpmailer->addCC(filter_var(trim($cc), FILTER_SANITIZE_EMAIL));
     }
 
     private function setBCC($bcc)
     {
-        $this->phpmailer->addBCC($bcc);
+        $this->phpmailer->addBCC(filter_var(trim($bcc), FILTER_SANITIZE_EMAIL));
     }
 
     private function setBody($body)
