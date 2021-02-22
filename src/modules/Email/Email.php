@@ -132,7 +132,7 @@ class Email
     {
         foreach ($body as $key => $value) {
             if ($key !== "subject") {
-                $this->phpmailer->Body .= $value . "<br>";
+                $this->phpmailer->Body .= "<b>$key</b>: $value <br>";
             } else {
                 $this->phpmailer->Subject = $value;
             }
