@@ -131,6 +131,7 @@ class Email
     private function setBody($body)
     {
         foreach ($body as $key => $value) {
+            $value = filter_var($value, FILTER_SANITIZE_STRING);
             if ($key !== "subject") {
                 $this->phpmailer->Body .= "<b>$key</b>: $value <br>";
             } else {
