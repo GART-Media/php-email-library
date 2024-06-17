@@ -15,6 +15,8 @@ class Email
 {
     private $phpmailer;
     private $auth;
+    private $authEnabled = false;
+    private $scoreThreshold = 0.5;
 
     public function __construct(array $data, array $options = null)
     {
@@ -33,14 +35,21 @@ class Email
 
     public function send()
     {
-        if (isset($this->auth) && !$this->auth) {
-            throw new AuthError("Authentifizierung fehlgeschlagen.");
-        }
-
         try {
+            if ($this->authEnabled) {
+                if (isset($this->auth) && !$this->auth->success) {
+                    throw new AuthError("Authentifizierung fehlgeschlagen.");
+                }
+    
+                if ($this->auth->score < $this->scoreThreshold) {
+                    throw new AuthError("Authentifizierung fehlgeschlagen. Score zu niedrig.");
+                }
+            }
+
             $this->phpmailer->send();
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$this->phpmailer->ErrorInfo}";
+            echo $e->getMessage();
         }
     }
 
@@ -61,7 +70,12 @@ class Email
                     break;
 
                 case "recaptcha":
+                    if (isset($value["scoreThreshold"])) {
+                        $this->scoreThreshold = $value["scoreThreshold"];
+                    }
+
                     $this->auth = Recaptcha::verify($value["response"], $value["secret"]);
+                    $this->authEnabled = true;
                     break;
             }
         }

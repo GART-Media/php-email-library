@@ -30,7 +30,8 @@ $settings = [
     // enables recaptcha authentication
     "recaptcha" => [
         "secret" => "your recaptcha secret",
-        "response" => $recaptchaResponse
+        "response" => $recaptchaResponse,
+        "scoreThreshold" => 0.9 // recaptcha v3 score threshold (default = 0.5)
     ],
     "html" => true // enable html mail
 ];

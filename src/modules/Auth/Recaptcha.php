@@ -34,6 +34,6 @@ class Recaptcha
         $captchaResponse = @file_get_contents(self::$url, false, $context);
         $decodedCaptchaResponse = json_decode($captchaResponse);
 
-        return $decodedCaptchaResponse->success;
+        return $decodedCaptchaResponse;
     }
 }
